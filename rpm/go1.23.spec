@@ -118,6 +118,9 @@ Requires:       gcc
 # BusyBox xargs doesn't support '-d'
 BuildRequires:  gnu-findutils
 
+# TSAN doesn't build with BusyBox ash
+BuildRequires:  gnu-bash
+
 Provides:       go = %{version}
 Provides:       go-devel = go%{version}
 Provides:       go-devel-static = go%{version}
