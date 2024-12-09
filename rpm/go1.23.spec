@@ -234,6 +234,7 @@ export GOROOT="`pwd`"/go
 export GOROOT_FINAL=%{_libdir}/go/%{go_label}
 export GOBIN="$GOROOT/bin"
 mkdir -p "$GOBIN"
+export GOROOT_BOOTSTRAP=%{_libdir}/go/1.21
 cd go/src
 HOST_EXTRA_CFLAGS="%{optflags} -Wno-error" taskset 0x1 ./make.bash -v
 
