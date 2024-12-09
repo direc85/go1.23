@@ -181,13 +181,13 @@ Go standard library compiled to a dynamically loadable shared object libstd.so
 
 # FIXME: perhaps these should be patched in?
 # See also .gitignore
-export GOTMPDIR=${TMPDIR:-$(realpath ".tmp-go")}
+export GOTMPDIR=${TMPDIR:-$(realpath .)}/.tmp-go
 mkdir -p $GOTMPDIR
 
-export GOCACHE=${TMPDIR:-$(realpath ".tmp-gocache")}
+export GOCACHE=${TMPDIR:-$(realpath .)}/.tmp-gocache
 mkdir -p $GOCACHE
 
-export TMPDIR=${TMPDIR:-$(realpath ".tmp")}
+export TMPDIR=${TMPDIR:-$(realpath .)}/.tmp
 mkdir -p $TMPDIR
 
 # Remove the pre-included .sysos, to avoid shipping things we didn't compile
