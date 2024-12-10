@@ -12,6 +12,9 @@
 # license that conforms to the Open Source Definition (Version 1.9)
 # published by the Open Source Initiative.
 
+# Ignore missing build-id links for now
+%global _missing_build_ids_terminate_build 0
+
 # On Sailfish OS we provide Go 1.21 (built with GCC 13 gcc-go)
 %define go_bootstrap_version go1.21
 
