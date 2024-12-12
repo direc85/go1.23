@@ -20,10 +20,13 @@
 
 # Bootstrap go toolchain using gccgo.
 # To bootstrap using go, use '--without gccgo'
+# Building Go 1.23 requires Go 1.20 or newer.
+# GCC 13 provides 1.18 (without generics) so disable gccgo bootstrapping altogether.
+#%%define gcc_go_version 13
 #%bcond_without gccgo
 
 # Build go-race only on platforms where C++14 is supported (SLE-15)
-%define tsan_arch x86_64 aarch64 s390x ppc64le
+%define tsan_arch x86_64 aarch64
 
 # Go has precompiled versions of LLVM's compiler-rt inside their source code.
 # We cannot ship pre-compiled binaries so we have to recompile said source,
@@ -47,7 +50,6 @@
 %define go_label %{go_api}
 
 # shared library support
-%if "%{rpm_vercmp %{go_api} 1.5}" > "0"
 %if %{with gccgo}
 %define with_shared 1
 %else
@@ -56,12 +58,6 @@
 %else
 %define with_shared 0
 %endif
-%endif
-%else
-%define with_shared 0
-%endif
-%ifarch ppc64
-%define with_shared 0
 %endif
 # setup go_arch (BSD-like scheme)
 %ifarch %ix86
@@ -77,18 +73,6 @@
 %endif
 %ifarch %arm
 %define go_arch arm
-%endif
-%ifarch ppc64
-%define go_arch ppc64
-%endif
-%ifarch ppc64le
-%define go_arch ppc64le
-%endif
-%ifarch s390x
-%define go_arch s390x
-%endif
-%ifarch riscv64
-%define go_arch riscv64
 %endif
 
 Name:           go1.23
@@ -132,7 +116,7 @@ Obsoletes:      go-devel < go%{version}
 # go-vim/emacs were separate projects starting from 1.4
 Obsoletes:      go-emacs <= 1.3.3
 Obsoletes:      go-vim <= 1.3.3
-ExclusiveArch:  %ix86 x86_64 %arm aarch64 ppc64 ppc64le s390x riscv64
+ExclusiveArch:  %ix86 x86_64 %arm aarch64
 
 %description
 Go is an expressive, concurrent, garbage collected systems programming language
@@ -419,7 +403,6 @@ popd # end of install
 
 # We don't include libstd.so in the main Go package.
 %if %{with_shared}
-# openSUSE Tumbleweed
 # ./go/1.23/pkg/linux_amd64_dynlink/libstd.so
 %exclude %{_libdir}/go/%{go_label}/pkg/linux_%{go_arch}_dynlink/libstd.so
 %endif
@@ -435,7 +418,6 @@ popd # end of install
 %endif
 
 %if %{with_shared}
-# openSUSE Tumbleweed
 %files libstd
 %{_libdir}/go/%{go_label}/pkg/linux_%{go_arch}_dynlink/libstd.so
 %endif
