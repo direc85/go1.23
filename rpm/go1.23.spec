@@ -221,7 +221,6 @@ cd ../
 # Install TSAN-friendly version of the std libraries.
 bin/go install -race std
 %endif
-cd ../
 
 %if %{with_shared}
 # openSUSE Tumbleweed
@@ -242,6 +241,7 @@ cd ../
 #    created with -buildmode=shared.
 bin/go install -buildmode=shared std
 %endif
+cd ../
 
 %check
 %ifarch %{tsan_arch}
