@@ -351,17 +351,6 @@ cp -r doc/* %{buildroot}%{_docdir}/go/%{go_label}
 
 %fdupes -s %{buildroot}%{_prefix}
 
-%post
-
-update-alternatives \
-  --install %{_bindir}/go go %{_libdir}/go/%{go_label}/bin/go $((20+$(echo %{go_label} | cut -d. -f2))) \
-  --slave %{_bindir}/gofmt gofmt %{_libdir}/go/%{go_label}/bin/gofmt \
-  --slave %{_sysconfdir}/gdbinit.d/go.gdb go.gdb %{_libdir}/go/%{go_label}/bin/gdbinit.d/go.gdb
-
-%postun
-if [ $1 -eq 0 ] ; then
-	update-alternatives --remove go %{_libdir}/go/%{go_label}/bin/go
-fi
 popd # end of install
 
 %files
