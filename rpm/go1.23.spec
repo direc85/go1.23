@@ -49,16 +49,7 @@
 # go_api or go_api-foo
 %define go_label %{go_api}
 
-# shared library support
-%if %{with gccgo}
-%define with_shared 1
-%else
-%ifarch %ix86 %arm x86_64 aarch64
-%define with_shared 1
-%else
 %define with_shared 0
-%endif
-%endif
 # setup go_arch (BSD-like scheme)
 %ifarch %ix86
 %define go_arch 386
